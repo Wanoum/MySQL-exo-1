@@ -30,7 +30,7 @@
 
     // Functions
     // Escapes injected MySQL queries for all elements of the array
-    function escape_array($mysqli, $array) {
+    function escape_array($mysqli, &$array) {
       return array_walk($array, function(&$string) use ($mysqli) {
         $string = mysqli_real_escape_string($mysqli, $string);
       });
@@ -40,15 +40,9 @@
     if(empty($list_eleve) || empty($list_matiere)) {
       echo "Veuillez sélectionner au moins un élève et une matière s'il vous plaît.";
     } else {
-      // Question : Not working
-      // echo "Avant: ";
-      // print_r($list_eleve);
 
       escape_array($mysqli, $list_eleve);
       escape_array($mysqli, $list_matiere);
-
-      // echo "<br/>Après: ";
-      // print_r($list_eleve);
 
       // Add to each value of array the given string
       $list_eleve = implode("','", $list_eleve);
